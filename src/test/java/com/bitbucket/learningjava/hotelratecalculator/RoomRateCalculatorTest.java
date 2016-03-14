@@ -21,9 +21,13 @@ public class RoomRateCalculatorTest {
     @UseDataProvider("dataProviderMonth")
     public void shouldReturnCorrectRate( int month, double expectedRate){
         TaxRateByZipCodeService taxRateByZipCodeService = mock(TaxRateByZipCodeService.class);
+
         when(taxRateByZipCodeService.getTaxPercentForZipCode(anyString())).thenReturn(10.0);
+
         BaseRateForZipCodeService baseRateForZipCodeService = mock(BaseRateForZipCodeService.class);
+
         when(baseRateForZipCodeService.getBaseRateForZipCode(anyString())).thenReturn(100.0);
+
         RoomRateCalculator roomRateCalculator = new RoomRateCalculator(baseRateForZipCodeService,taxRateByZipCodeService);
         assertThat(roomRateCalculator.getTotalRoomRate("97006", month), closeTo(expectedRate, 0.01));
 
@@ -40,9 +44,9 @@ public class RoomRateCalculatorTest {
                 { 3, 140.0 },
                 { 4, 110.0 },
                 { 5, 110.0 },
-                { 6, 150.0 },
-                { 7, 150.0},
-                { 8, 150.0 },
+                { 6, 160.0 },
+                { 7, 160.0},
+                { 8, 160.0 },
                 { 9, 110.0 },
                 { 10, 80.0 },
                 { 11, 130.0 },

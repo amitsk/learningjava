@@ -24,7 +24,7 @@ public class RoomRateCalculator {
 
     public double getDiscountRateForMonth( int month) {
         if( month <=8 && month >=6 ) {
-            return 0.4;
+            return 0.5;
         }
         else if ( month == 12 || month == 11  ) {
             return 0.2;
