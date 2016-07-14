@@ -1,42 +1,51 @@
 package com.github.learningjava.hotelratecalculator;
 
 /**
- *
  * Get the room rate for a zip code and the month
- *
  */
 public class RoomRateCalculator {
 
-    private  BaseRateForZipCodeService baseRateForZipCodeService;
-    private TaxRateByZipCodeService taxRateByZipCodeService;
+    private final DiscountRateService discountRateService;
+    private final BaseRateForZipCodeService baseRateForZipCodeService;
+    private final TaxRateByZipCodeService taxRateByZipCodeService;
 
-    public RoomRateCalculator(BaseRateForZipCodeService zipCodeService, TaxRateByZipCodeService taxRateByZipCodeService) {
+    public RoomRateCalculator(BaseRateForZipCodeService zipCodeService,
+                              DiscountRateService discountRateService,
+                              TaxRateByZipCodeService taxRateByZipCodeService) {
         this.baseRateForZipCodeService = zipCodeService;
         this.taxRateByZipCodeService = taxRateByZipCodeService;
+        this.discountRateService = discountRateService;
     }
 
-    public double getTotalRoomRate( String zipCode, int month) {
-        double taxRate = taxRateByZipCodeService.getTaxPercentForZipCode(zipCode);
-        double baseRate = baseRateForZipCodeService.getBaseRateForZipCode(zipCode);
 
-        return baseRate * (1 + getDiscountRateForMonth( month )) + (baseRate * (taxRate/100) ) ;
+
+    public double getTotalRoomRate(RoomRateInput roomRateInput) {
+        double taxRate = taxRateByZipCodeService.getTaxPercentForZipCode(roomRateInput.getZipCode());
+        double baseRate = baseRateForZipCodeService.getBaseRateForZipCode(roomRateInput.getZipCode());
+        double discountRateForMonth = discountRateService.getDiscountRateForMonth(roomRateInput.getMonth());
+
+        return baseRate * (1 + discountRateForMonth) + (baseRate * (taxRate / 100));
     }
 
-    public double getDiscountRateForMonth( int month) {
-        if( month <=8 && month >=6 ) {
-            return 0.5;
+    public double getDiscountRateForMonth(int month) {
+        return discountRateService.getDiscountRateForMonth(month);
+    }
+
+    static class RoomRateInput {
+        private final String zipCode;
+        private final int month;
+
+        RoomRateInput(String zipCode, int month) {
+            this.zipCode = zipCode;
+            this.month = month;
         }
-        else if ( month == 12 || month == 11  ) {
-            return 0.2;
+
+        public String getZipCode() {
+            return zipCode;
         }
-        else if ( month == 3 ) {
-            return 0.3;
-        }
-        else if ( month == 10 || month == 2 || month == 1  ) {
-            return -0.3;
-        }
-        else {
-           return 0.0;
+
+        public int getMonth() {
+            return month;
         }
     }
 }

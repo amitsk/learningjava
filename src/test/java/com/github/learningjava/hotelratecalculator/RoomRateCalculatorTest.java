@@ -29,7 +29,7 @@ public class RoomRateCalculatorTest {
         when(baseRateForZipCodeService.getBaseRateForZipCode(anyString())).thenReturn(100.0);
 
         RoomRateCalculator roomRateCalculator = new RoomRateCalculator(baseRateForZipCodeService,taxRateByZipCodeService);
-        assertThat(roomRateCalculator.getTotalRoomRate("97006", month), closeTo(expectedRate, 0.01));
+        assertThat(roomRateCalculator.getTotalRoomRate(new RoomRateCalculator.RoomRateInput("97006", month)), closeTo(expectedRate, 0.01));
 
 
     }

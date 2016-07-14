@@ -30,8 +30,10 @@ public class Main {
 
             RoomRateCalculator roomRateCalculator = new RoomRateCalculator(
                     new BaseRateForZipCodeService(Currency.getInstance("USD")),
+                    new DiscountRateService(),
                     new TaxRateByZipCodeService());
-            double totalRoomRate = roomRateCalculator.getTotalRoomRate(zipCode, month);
+
+            double totalRoomRate = roomRateCalculator.getTotalRoomRate(new RoomRateCalculator.RoomRateInput(zipCode, month));
             System.out.println( String.format("The total room rate for %s and month %d is %f" ,
                     zipCode,month, totalRoomRate) );
 
