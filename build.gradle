@@ -3,9 +3,22 @@ apply plugin: 'idea'
 apply plugin: 'jacoco'
 apply plugin: 'project-report'
 
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "com.github.jengelman.gradle.plugins:shadow:1.2.3"
+    }
+}
+
+apply plugin: "com.github.johnrengelman.shadow"
+
 sourceCompatibility = 1.8
 
-// Apply the java plugin to add support for Java
+
 
 
 // In this section you declare where to find the dependencies of your project
