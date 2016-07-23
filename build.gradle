@@ -2,6 +2,7 @@ apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'jacoco'
 apply plugin: 'project-report'
+apply plugin: 'ru.d10xa.allure'
 
 buildscript {
     repositories {
@@ -11,14 +12,13 @@ buildscript {
     }
     dependencies {
         classpath "com.github.jengelman.gradle.plugins:shadow:1.2.3"
+        classpath "ru.d10xa:gradle-allure-plugin:0.5.1"
     }
 }
 
 apply plugin: "com.github.johnrengelman.shadow"
 
 sourceCompatibility = 1.8
-
-
 
 
 // In this section you declare where to find the dependencies of your project
@@ -74,3 +74,18 @@ task calculator(type: JavaExec) {
     main = "com.bitbucket.learningjava.hotelratecalculator.Main"
 }
 
+
+allure {
+    aspectjweaver = true
+
+    junit = true
+    testNG = false
+    spock = false
+    geb = false
+
+    allureResultsDir = "$buildDir/allure-results"
+    allureReportDir = "$buildDir/allure-report"
+
+    allureVersion = "1.4.22"
+    aspectjVersion = "1.8.9"
+}
