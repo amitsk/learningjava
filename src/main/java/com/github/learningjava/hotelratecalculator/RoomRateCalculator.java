@@ -17,8 +17,6 @@ public class RoomRateCalculator {
         this.discountRateService = discountRateService;
     }
 
-
-
     public double getTotalRoomRate(RoomRateInput roomRateInput) {
         double taxRate = taxRateByZipCodeService.getTaxPercentForZipCode(roomRateInput.getZipCode());
         double baseRate = baseRateForZipCodeService.getBaseRateForZipCode(roomRateInput.getZipCode());
@@ -27,15 +25,11 @@ public class RoomRateCalculator {
         return baseRate * (1 + discountRateForMonth) + (baseRate * (taxRate / 100));
     }
 
-    public double getDiscountRateForMonth(int month) {
-        return discountRateService.getDiscountRateForMonth(month);
-    }
-
-    static class RoomRateInput {
+    public static class RoomRateInput {
         private final String zipCode;
         private final int month;
 
-        RoomRateInput(String zipCode, int month) {
+        public RoomRateInput(String zipCode, int month) {
             this.zipCode = zipCode;
             this.month = month;
         }
