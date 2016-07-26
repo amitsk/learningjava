@@ -95,3 +95,9 @@ allure {
     allureVersion = "1.4.22"
     aspectjVersion = "1.8.9"
 }
+
+shadowJar {
+    dependencies {
+        exclude(dependency('com.sparkjava:spark-core'))
+    }
+}
