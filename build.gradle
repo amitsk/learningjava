@@ -1,3 +1,5 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'jacoco'
@@ -96,8 +98,30 @@ allure {
     aspectjVersion = "1.8.9"
 }
 
-shadowJar {
+task awsLambdaShadowJar(type: ShadowJar) {
     dependencies {
         exclude(dependency('com.sparkjava:spark-core'))
+        exclude(dependency('org.eclipse.jetty.*:.*'))
+        exclude(dependency('org.apache.*:.*'))
+        exclude(dependency('org.apache.logging.*:.*'))
+        exclude(dependency('com.fasterxml.*:.*'))
+        exclude(dependency('commons-codec:.*'))
+        exclude(dependency('commons-logging:.*'))
+        exclude(dependency('commons-beanutils:.*'))
+        exclude(dependency('joda-time:.*'))
+        exclude(dependency('com.lmax:.*'))
+    }
+}
+
+
+task sparkShadowJar(type: ShadowJar) {
+    dependencies {
+        exclude(dependency('com.amazonws:.*'))
+    }
+    classifier = 'resource'
+    from sourceSets.main.output
+    configurations = [project.configurations.runtime]
+    manifest {
+        attributes( 'Main-Class': 'com.github.learningjava.hotelratecalculator.RoomRateCalculatorResource')
     }
 }
